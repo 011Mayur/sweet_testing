@@ -45,10 +45,10 @@ deleteSweet(id) {
 
 searchSweets({ name, category, minPrice, maxPrice }) {
 return this.sweets.filter(sweet => {
-if (name && sweet.name !== name) return false;
-if (category && sweet.category !== category) return false;
-if (minPrice && sweet.price < minPrice) return false;
-if (maxPrice && sweet.price > maxPrice) return false;
+if (name && sweet.name.toLowerCase() !== name.toLowerCase()) return false;
+if (category && sweet.category.toLowerCase() !== category.toLowerCase()) return false;
+if (minPrice != null && sweet.price < minPrice) return false;
+if (maxPrice != null && sweet.price > maxPrice) return false;
 return true;
 });
 }
