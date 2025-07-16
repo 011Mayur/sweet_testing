@@ -57,4 +57,22 @@ test("should throw error if sweet object is missing required fields", () => {
   expect(() => service.addSweet(incompleteSweet)).toThrow("Invalid sweet object");
 });
 
+test("should delete a sweet by ID", () => {
+  const sweet = {
+    id: 2001,
+    name: "Rasgulla",
+    category: "Milk-Based",
+    price: 15,
+    quantity: 25,
+  };
+
+  service.addSweet(sweet);
+  service.deleteSweet(2001); 
+
+  const sweets = service.getAllSweets();
+  expect(sweets.length).toBe(0);
+});
+
+
+
 });
