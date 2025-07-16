@@ -74,7 +74,20 @@ purchaseSweet(id, quantity) {
     throw new Error("Insufficient stock");
   }
 
-  sweet.quantity -= quantity;
+  sweet.quantity -= quantity;
+}
+
+restockSweet(id, quantity) {
+  if (typeof id !== "number" || typeof quantity !== "number") {
+    throw new Error("ID and quantity must be numbers");
+  }
+
+  const sweet = this.sweets.find(s => s.id === id);
+  if (!sweet) {
+    throw new Error("Sweet not found");
+  }
+
+  sweet.quantity += quantity;
 }
 
 }
