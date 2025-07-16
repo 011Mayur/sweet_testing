@@ -319,19 +319,22 @@ expect(result.length).toBe(2); // Should return 2 sweets with "Nut-Based"
 
 
 
-test(" FAIL: returns wrong sweet when filtering by price range", () => {
-const sweet1 = { id: 9801, name: "Milk Cake", category: "Milk-Based", price: 30, quantity: 20 };
-const sweet2 = { id: 9802, name: "Peda", category: "Milk-Based", price: 40, quantity: 25 };
-const sweet3 = { id: 9803, name: "Kaju Katli", category: "Nut-Based", price: 60, quantity: 15 };
+test(" PASS: filters sweets correctly by minPrice and maxPrice", () => {
+  const sweet1 = { id: 9801, name: "Milk Cake", category: "Milk-Based", price: 30, quantity: 20 };
+  const sweet2 = { id: 9802, name: "Peda", category: "Milk-Based", price: 40, quantity: 25 };
+  const sweet3 = { id: 9803, name: "Kaju Katli", category: "Nut-Based", price: 60, quantity: 15 };
 
-service.addSweet(sweet1);
-service.addSweet(sweet2);
-service.addSweet(sweet3);
+  service.addSweet(sweet1);
+  service.addSweet(sweet2);
+  service.addSweet(sweet3);
 
-const result = service.searchSweets({ minPrice: 30, maxPrice: 50 });
+  const result = service.searchSweets({ minPrice: 30, maxPrice: 50 });
 
-expect(result.length).toBe(1);
-expect(result[0].name).toBe("Kaju Katli"); //  wrong: Kaju Katli is ₹60 and should NOT be returned
+  //  Correct expectation: Only Milk Cake and Peda are in range
+  const names = result.map(s => s.name).sort();
+
+  expect(result.length).toBe(2);
+  expect(names).toEqual(["Milk Cake","Peda"]);
 });
 
 
