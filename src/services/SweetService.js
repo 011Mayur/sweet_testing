@@ -21,9 +21,13 @@ class SweetService {
 
 
 
-  getAllSweets() {
-    return this.sweets;
-  }
+//   getAllSweets() {
+//     return this.sweets;
+//   }
+
+getAllSweets() {
+  return [...this.sweets];
+}
 
 
 deleteSweet(id) {
