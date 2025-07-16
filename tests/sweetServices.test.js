@@ -298,7 +298,7 @@ service.addSweet(sweet);
 
 expect(() => {
 service.searchSweets({ minPrice: "twenty" }); 
-}).toThrow("Price filter must be a number");
+}).toThrow("Price filter must be a number");
 });
 
 
