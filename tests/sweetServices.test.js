@@ -7,6 +7,8 @@ describe("Sweet Shop - Add Sweets", () => {
     service = new SweetService();
   });
 
+
+  // add new sweet
   test("should add a new sweet to the inventory", () => {
     const sweet = {
       id: 1001,
@@ -23,6 +25,7 @@ describe("Sweet Shop - Add Sweets", () => {
     expect(sweets[0]).toEqual(sweet);
   });
 
+  //prevent adding sweet with duplicate ID
   test("should not allow adding sweets with duplicate IDs", () => {
   const sweet1 = {
     id: 1001,
@@ -44,7 +47,7 @@ describe("Sweet Shop - Add Sweets", () => {
   expect(() => service.addSweet(sweet2)).toThrow("Sweet ID must be unique");
 });
 
-
+// throw error if sweet object is missing required fields
 test("should throw error if sweet object is missing required fields", () => {
   const incompleteSweet = {
     id: 1002,
@@ -57,6 +60,7 @@ test("should throw error if sweet object is missing required fields", () => {
   expect(() => service.addSweet(incompleteSweet)).toThrow("Invalid sweet object");
 });
 
+ //delete a sweet by ID
 test("should delete a sweet by ID", () => {
   const sweet = {
     id: 2001,
@@ -73,11 +77,14 @@ test("should delete a sweet by ID", () => {
   expect(sweets.length).toBe(0);
 });
 
+
+
+//throw error when deleting a non-existent sweet
 test("should throw error when deleting a non-existent sweet", () => {
   expect(() => service.deleteSweet(9999)).toThrow("Sweet not found");
 });
 
-
+//delete correct sweet from multiple sweets
 test("should delete correct sweet from multiple sweets", () => {
   const sweet1 = {
     id: 3001,
@@ -118,7 +125,7 @@ test("should delete correct sweet from multiple sweets", () => {
   expect(ids).not.toContain(3002);
 });
 
-
+//throw error if sweet ID passed to delete is not a number
 test("should throw error if sweet ID passed to delete is not a number", () => {
   const sweet = {
     id: 3001,
@@ -133,6 +140,7 @@ test("should throw error if sweet ID passed to delete is not a number", () => {
   expect(() => service.deleteSweet("3001")).toThrow("Sweet ID must be a number");
 });
 
+//return a new array (not internal reference) to prevent external mutation
 test("should return a new array (not internal reference) to prevent external mutation", () => {
   const sweet = {
     id: 4001,
@@ -151,6 +159,7 @@ test("should return a new array (not internal reference) to prevent external mut
   expect(service.getAllSweets().length).toBe(1);
 });
 
+//return all sweets in the order they were added
 test("should return all sweets in the order they were added", () => {
   const sweet1 = {
     id: 5001,
@@ -187,7 +196,7 @@ test("should return all sweets in the order they were added", () => {
   expect(result[2].id).toBe(5003);
 });
 
-
+//ensure each sweet has all required fields
 test("should ensure each sweet has all required fields", () => {
   const sweet = {
     id: 6001,
@@ -211,6 +220,7 @@ test("should ensure each sweet has all required fields", () => {
   }
 });
 
+//return deep clones of sweets to prevent external mutation
 test("should return deep clones of sweets to prevent external mutation", () => {
   const sweet = {
     id: 7001,
@@ -235,6 +245,7 @@ test("should return deep clones of sweets to prevent external mutation", () => {
   expect(original.quantity).toBe(20);
 });
 
+//return sweets that match the exact name
 test("should return sweets that match the exact name", () => {
 const sweet1 = {
 id: 9001,
@@ -259,6 +270,7 @@ expect(results.length).toBe(1);
 expect(results[0].id).toBe(9001);
 });
 
+//return sweets matching category case-insensitively
 test("should return sweets matching category case-insensitively", () => {
 const sweet1 = {
 id: 8001,
@@ -285,6 +297,8 @@ expect(result.length).toBe(1);
 expect(result[0].name).toBe("Kalakand");
 });
 
+
+//throw error if minPrice is not a number
 test("should throw error if minPrice is not a number", () => {
 const sweet = {
 id: 9010,
@@ -301,7 +315,7 @@ service.searchSweets({ minPrice: "twenty" });
 }).toThrow("Price filter must be a number");
 });
 
-
+//support partial category search (e.g., 'Nut' matches 'Nut-Based')
 test("should support partial category search (e.g., 'Nut' matches 'Nut-Based')", () => {
 const sweet1 = { id: 9201, name: "Kaju Katli", category: "Nut-Based", price: 50, quantity: 20 };
 const sweet2 = { id: 9202, name: "Badam Barfi", category: "Nut-Based", price: 40, quantity: 10 };
@@ -318,7 +332,7 @@ expect(result.length).toBe(2); // Should return 2 sweets with "Nut-Based"
 
 
 
-
+//PASS: filters sweets correctly by minPrice and maxPrice
 test(" PASS: filters sweets correctly by minPrice and maxPrice", () => {
   const sweet1 = { id: 9801, name: "Milk Cake", category: "Milk-Based", price: 30, quantity: 20 };
   const sweet2 = { id: 9802, name: "Peda", category: "Milk-Based", price: 40, quantity: 25 };
@@ -337,6 +351,7 @@ test(" PASS: filters sweets correctly by minPrice and maxPrice", () => {
   expect(names).toEqual(["Milk Cake","Peda"]);
 });
 
+//reduce quantity on successful purchase
 test("should reduce quantity on successful purchase", () => {
   const sweet = {
     id: 10001,
@@ -354,6 +369,8 @@ test("should reduce quantity on successful purchase", () => {
   expect(updated.quantity).toBe(25);
 });
 
+
+//not throw error if purchasing more than available quantity
 test("should not throw error if purchasing more than available quantity", () => {
   const sweet = {
     id: 10002,
@@ -369,7 +386,7 @@ test("should not throw error if purchasing more than available quantity", () => 
 });
 
 
-
+//increase quantity when restocking
 test("should increase quantity when restocking", () => {
   const sweet = {
     id: 10003,
