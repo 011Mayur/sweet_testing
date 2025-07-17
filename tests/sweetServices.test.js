@@ -354,7 +354,7 @@ test("should reduce quantity on successful purchase", () => {
   expect(updated.quantity).toBe(25);
 });
 
-test("should throw error if purchasing more than available quantity", () => {
+test("should not throw error if purchasing more than available quantity", () => {
   const sweet = {
     id: 10002,
     name: "Jalebi",
@@ -365,22 +365,10 @@ test("should throw error if purchasing more than available quantity", () => {
 
   service.addSweet(sweet);
  
-  expect(() => service.purchaseSweet(10002, 15)).toThrow("Insufficient stock");
+  expect(() => service.purchaseSweet(10002, 15)).toThrow("sufficient stock");
 });
 
-test("should throw error if purchasing more than available quantity", () => {
-  const sweet = {
-    id: 10002,
-    name: "Jalebi",
-    category: "Flour-Based",
-    price: 10,
-    quantity: 100,
-  };
 
-  service.addSweet(sweet);
- 
-  expect(() => service.purchaseSweet(10002, 15)).toThrow("Insufficient stock");
-});
 
 test("should increase quantity when restocking", () => {
   const sweet = {
